@@ -108,13 +108,13 @@ class UserController extends Controller
      */
    public function destroy($id)
     {
-        $user = Role::findById($id);
+        $user = User::findOrFail($id);
 
         if(!$user) {
             return redirect()->route('users.index')->with('error', 'User not found.');
         }
         $user->delete();
-        return redirect()->route('roles.index')->with('success', 'Role deleted successfully.');
+        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
 
 }

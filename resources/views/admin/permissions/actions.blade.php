@@ -1,7 +1,7 @@
 <div class="flex items-center">
-    <a href="{{ route('permissions.edit', $permission->id) }}" class="text-blue-600 mx-2" title="Edit">
+    <!-- <a href="{{ route('permissions.edit', $permission->id) }}" class="text-blue-600 mx-2" title="Edit">
         <i class="fas fa-edit"></i>
-    </a>
+    </a> -->
 
     <form action="{{ route('permissions.destroy', $permission->id) }}" method="POST" class="inline" style="margin-left:10px">
         @csrf

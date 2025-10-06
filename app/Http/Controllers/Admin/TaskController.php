@@ -28,9 +28,11 @@ class TaskController extends Controller
     {
         $authUser = Auth::user();
         if($authUser->hasRole('admin')){
-            $tasks = Task::select(['id', 'title', 'priority', 'status', 'created_by']);
+            $tasks = Task::select(['id', 'title', 'priority', 'status', 'created_by'])->with('createdBy')->whereHas('createdBy');
         }else{
             $tasks = Task::select(['id', 'title', 'priority', 'status', 'created_by'])
+                ->with('createdBy')->whereHas('createdBy')
+                ->whereHas('createdBy')
               ->where('created_by', $authUser->id)
             ->orWhere('assigned_to', $authUser->id);
         }
@@ -239,6 +241,10 @@ public function destroy($id)
 
     if(!$task) {
         return redirect()->route('tasks.index')->with('error', 'Task not found.');
+    }
+
+      if ($task->createdBy && $task->createdBy->hasRole('admin') && !auth()->user()->hasRole('admin')) {
+        abort(403, 'Unauthorized to delete admin-created task.');
     }
 
     // Delete associated documents from storage and database
