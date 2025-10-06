@@ -38,4 +38,19 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    public function render($request, Throwable $exception)
+{
+    // Handle 403 (Forbidden) errors gracefully
+    if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
+        return redirect()->back()->with('error', 'You are not authorized to access this page.');
+    }
+
+    if ($exception instanceof \Symfony\Component\HttpKernel\Exception\HttpException && $exception->getStatusCode() === 403) {
+        return redirect()->back()->with('error', 'You are not authorized to perform this action.');
+    }
+
+    return parent::render($request, $exception);
+}
+
 }

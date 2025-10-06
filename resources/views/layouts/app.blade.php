@@ -36,6 +36,41 @@
 <body class="font-sans antialiased">
   <div class="min-h-screen bg-gray-100">
     @include('layouts.navigation')
+  @if(session('success'))
+    <div class="flex justify-end mb-4">
+      <div id="toast-success"
+          class="fixed top-5 right-5 bg-green-200 text-green-800 px-4 py-2 rounded shadow-lg opacity-0 transform translate-x-20 transition-all duration-500">
+          {{ session('success') }}
+      </div>
+    </div>
+    <script>
+      const toast = document.getElementById('toast-success');
+      toast.classList.remove('opacity-0', 'translate-x-20');
+      toast.classList.add('opacity-100', 'translate-x-0');
+      setTimeout(() => {
+          toast.classList.remove('opacity-100');
+          toast.classList.add('opacity-0', 'translate-x-20');
+      }, 3000);
+    </script>
+    @endif
+
+    @if(session('error'))
+    <div class="flex justify-end mb-4">
+      <div id="toast-error"
+          class="fixed top-5 right-5 bg-red-200 text-red-800 px-4 py-2 rounded shadow-lg opacity-0 transform translate-x-20 transition-all duration-500">
+          {{ session('error') }}
+      </div>
+    </div>
+    <script>
+      const toast = document.getElementById('toast-error');
+      toast.classList.remove('opacity-0', 'translate-x-20');
+      toast.classList.add('opacity-100', 'translate-x-0');
+      setTimeout(() => {
+          toast.classList.remove('opacity-100');
+          toast.classList.add('opacity-0', 'translate-x-20');
+      }, 3000);
+    </script>
+    @endif
 
     <!-- Page Heading -->
     <header class="bg-white shadow">
